@@ -1,9 +1,38 @@
-var express = require('express');
-var router = express.Router();
-
+const express = require('express');
+const router = express.Router();
+const log4js = require("log4js");
+const logger = log4js.getLogger();
+var ffmpeg = require('fluent-ffmpeg');
+var cors = require('cors')
+//'var' is used instead of 'let' or 'const'
+// 参考：https://luneshao.github.io/2020/2020-04-07-fluent-ffmpeg-api/
+// 参考：https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/blob/master/examples/
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Taiji Video' });
 });
+
+router.post('/video/process/audio',function (req,res) {
+  logger.info(req.body);
+
+  res.status(201).send()  // 设置请求成功状态码 201
+});
+
+router.get('/test', (req, res) => {
+  res.contentType('audio/mp3');
+  res.attachment('myfile.mp3');
+  // 测试视频：http://192.168.5.39:8099/storage/lizhi-GuanYuZhengZhouDeJiYi.mp4
+  var pathToAudio = 'http://192.168.5.39:8099/storage/lizhi-GuanYuZhengZhouDeJiYi.mp4';
+  ffmpeg(pathToAudio)
+      .toFormat('mp3')
+      .on('end', function(err) {
+        console.log('done!')
+      })
+      .on('error', function(err) {
+        console.log('an error happened: ' + err.message);
+      })
+      .pipe(res, {end: true})
+});
+
 
 module.exports = router;
