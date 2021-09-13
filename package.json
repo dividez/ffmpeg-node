@@ -5,10 +5,12 @@
   "scripts": {
     "start": "node ./bin/www",
     "build": "docker build -t tjvideo/node-web-app .",
-    "dev": "docker run -p 49160:3000 -d tjvideo/node-web-app",
-    "open": "open http://localhost:49160"
+    "dev": "docker run  --name=node-web-app -p 49160:3000 -d tjvideo/node-web-app",
+    "open": "open http://localhost:49160",
+    "stop": "docker stop node-web-app && docker rm node-web-app"
   },
   "dependencies": {
+    "async": "^3.2.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
