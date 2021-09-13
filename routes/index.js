@@ -3,6 +3,7 @@ const router = express.Router();
 const log4js = require("log4js");
 const logger = log4js.getLogger();
 var ffmpeg = require('fluent-ffmpeg');
+const extractFrames = require('ffmpeg-extract-frames')
 var cors = require('cors')
 //'var' is used instead of 'let' or 'const'
 // 参考：https://luneshao.github.io/2020/2020-04-07-fluent-ffmpeg-api/
@@ -18,7 +19,7 @@ router.post('/video/process/audio',function (req,res) {
   res.status(201).send()  // 设置请求成功状态码 201
 });
 
-router.get('/test', (req, res) => {
+router.get('/test/video-to-audio', (req, res) => {
   res.contentType('audio/mp3');
   res.attachment('myfile.mp3');
   // 测试视频：http://192.168.5.39:8099/storage/lizhi-GuanYuZhengZhouDeJiYi.mp4
@@ -32,6 +33,21 @@ router.get('/test', (req, res) => {
         console.log('an error happened: ' + err.message);
       })
       .pipe(res, {end: true})
+});
+
+router.get('/test/video-to-images', (req, res) => {
+    var pathToAudio = 'http://192.168.5.39:8099/storage/lizhi-GuanYuZhengZhouDeJiYi.mp4';
+    extractFrames({
+        input: pathToAudio,
+        output: '/data/media/store/screenshot-%i.jpg',
+        offsets: [
+            1000,
+            2000,
+            3000
+        ]
+    }).then(r => function () {
+        console.log("finish")
+    })
 });
 
 
