@@ -37,17 +37,23 @@ router.get('/test/video-to-audio', (req, res) => {
 
 router.get('/test/video-to-images', (req, res) => {
     var pathToAudio = 'http://192.168.5.39:8099/storage/lizhi-GuanYuZhengZhouDeJiYi.mp4';
-    extractFrames({
-        input: pathToAudio,
-        output: '/data/media/store/screenshot-%i.jpg',
-        offsets: [
-            1000,
-            2000,
-            3000
-        ]
-    }).then(r => function () {
-        console.log("finish")
-    })
+    async function a() {
+        extractFrames({
+            input: pathToAudio,
+            output: '/data/media/store/screenshot-%i.jpg',
+            offsets: [
+                1000,
+                2000,
+                3000
+            ]
+        }).then(r => function () {
+            console.log("finish")
+        })
+    }
+    a().then(r => function () {
+        console.log('finished')
+    });
+    res.status(201).send()  // 设置请求成功状态码 201
 });
 
 
