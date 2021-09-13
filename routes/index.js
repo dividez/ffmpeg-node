@@ -37,14 +37,21 @@ router.get('/test/video-to-audio', (req, res) => {
 
 router.get('/test/video-to-images', (req, res) => {
     var pathToAudio = 'http://192.168.5.39:8099/storage/lizhi-GuanYuZhengZhouDeJiYi.mp4';
+    // offsets 以毫秒为单位
     async function a() {
         extractFrames({
             input: pathToAudio,
             output: '/data/media/store/screenshot-%i.jpg',
             offsets: [
                 1000,
-                2000,
-                3000
+                10000,
+                20000,
+                30000,
+                40000,
+                50000,
+                60000,
+                70000,
+                80000
             ]
         }).then(r => function () {
             console.log("finish")
