@@ -1,7 +1,5 @@
 FROM node:current
 
-VOLUME ["/root"]
-
 RUN apt-get update \
     && apt-get -y install software-properties-common \
     && add-apt-repository ppa:jonathonf/ffmpeg-4 \
