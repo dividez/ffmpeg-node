@@ -53,7 +53,10 @@ router.get('/test/video-to-images', (req, res) => {
     a().then(r => function () {
         console.log('finished')
     });
-    res.status(201).send()  // 设置请求成功状态码 201
+    res.status(200).send({
+        'message' : 'success',
+        'status' : 200,
+    });
 });
 
 
